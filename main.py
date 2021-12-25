@@ -25,7 +25,6 @@ def get_vacancies_hh(language):
       'specialization': '1.221',
       'area': '1',
       'period': '30',
-      'only_with_salary': True,
       'page': f'{page}',
       'per_page': '100'
     }
@@ -33,11 +32,12 @@ def get_vacancies_hh(language):
     response.raise_for_status()
 
     pages_number = response.json()['pages']
-    if page > pages_number:
-      break
 
     for vacancy in response.json()['items']:
       vacancies.append(vacancy)
+
+    if page > pages_number or page == 19:
+      break
   found = response.json()['found']
   return found, vacancies
 
@@ -51,8 +51,9 @@ def get_average_salary_hh(languages):
     predict_salaries = []
     for vacancy in vacancies:
       salary = vacancy['salary']
-      if salary['currency'] == 'RUR':
-        predict_salaries.append(predict_rub_salary(salary['from'], salary['to']))
+      if salary:
+        if salary['currency'] == 'RUR':
+          predict_salaries.append(predict_rub_salary(salary['from'], salary['to']))
 
     language_average_salaries['average_salary'] = int(mean(predict_salaries))
     language_average_salaries['vacancies_processed'] = len(predict_salaries)
