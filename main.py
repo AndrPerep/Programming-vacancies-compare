@@ -92,9 +92,9 @@ def get_vacancies_sj(language, sj_key):
 
 
 def get_average_salary_sj(languages, sj_key):
-  for language in languages:
-    sj_average_salaries = {}
+  sj_average_salaries = {}
 
+  for language in languages:
     found, vacancies = get_vacancies_sj(language, sj_key)
 
     predict_salaries = []
