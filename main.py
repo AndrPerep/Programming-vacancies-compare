@@ -1,3 +1,4 @@
+import itertools
 import requests
 import os
 
@@ -16,9 +17,9 @@ def predict_rub_salary(payment_from, payment_to):
   return predict_salary
 
 
-def get_vacancies_hh(language, pages=1):
+def get_vacancies_hh(language):
   vacancies = []
-  for page in range(0, pages):
+  for page in itertools.count(start=0, step=1):
     payload = {
       'text': f'Программист {language}',
       'specialization': '1.221',
@@ -30,19 +31,22 @@ def get_vacancies_hh(language, pages=1):
     }
     response = requests.get('https://api.hh.ru/vacancies', params=payload)
     response.raise_for_status()
+
+    pages_number = response.json()['pages']
+    if page > pages_number:
+      break
+
     for vacancy in response.json()['items']:
       vacancies.append(vacancy)
   found = response.json()['found']
-  pages = response.json()['pages']
-  return pages, found, vacancies
+  return found, vacancies
 
 
 def get_average_salary_hh(languages):
   hh_average_salaries = {}
   for language in languages:
     language_average_salaries = {}
-    pages, found, vacancies = get_vacancies_hh(language)  # получает количество страниц для запроса
-    pages, found, vacancies = get_vacancies_hh(language, pages)
+    found, vacancies = get_vacancies_hh(language)
 
     predict_salaries = []
     for vacancy in vacancies:
@@ -64,7 +68,7 @@ def get_vacancies_sj(language):
   headers = {
     'X-Api-App-Id': os.getenv('SJ_KEY')
   }
-  for page in range(0, 6):
+  for page in itertools.count(start=0, step=1):
     payload = {
       'page': f'{page}',
       'count': '100',
@@ -74,10 +78,13 @@ def get_vacancies_sj(language):
     }
     response = requests.get('https://api.superjob.ru/2.0/vacancies/', headers=headers, params=payload)
     response.raise_for_status()
+
     for vacancy in response.json()['objects']:
       vacancies.append(vacancy)
-    found = response.json()['total']
+    if response.json()['more'] == False:
+      break
 
+  found = response.json()['total']
   return found, vacancies
 
 
