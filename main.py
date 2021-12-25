@@ -31,14 +31,15 @@ def get_vacancies_hh(language):
     response = requests.get('https://api.hh.ru/vacancies', params=payload)
     response.raise_for_status()
 
-    pages_number = response.json()['pages']
+    response_json = response.json()
+    pages_number = response_json['pages']
 
-    for vacancy in response.json()['items']:
+    for vacancy in response_json['items']:
       vacancies.append(vacancy)
 
     if page > pages_number or page == 19:
       break
-  found = response.json()['found']
+  found = response_json['found']
   return found, vacancies
 
 
@@ -79,13 +80,14 @@ def get_vacancies_sj(language, sj_key):
     }
     response = requests.get('https://api.superjob.ru/2.0/vacancies/', headers=headers, params=payload)
     response.raise_for_status()
+    response_json = response.json()
 
-    for vacancy in response.json()['objects']:
+    for vacancy in response_json['objects']:
       vacancies.append(vacancy)
-    if response.json()['more'] == False:
+    if response_json['more'] == False:
       break
 
-  found = response.json()['total']
+  found = response_json['total']
   return found, vacancies
 
 
