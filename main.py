@@ -125,7 +125,7 @@ def create_table(title, average_salaries):
     table_data.append(table_row)
 
   table = AsciiTable(table_data, title)
-  print(table.table)
+  return table.table
 
 
 def main():
@@ -133,8 +133,8 @@ def main():
   sj_key = os.getenv('SJ_KEY')
 
   languages = ['JavaScript', 'Java', 'Python', 'Ruby', 'PHP', 'C++', 'CSS', 'C#', 'C', 'Go']
-  create_table('HeadHunter Moscow', get_average_salary_hh(languages))
-  create_table('SuberJob Moscow', get_average_salary_sj(languages, sj_key))
+  print(create_table('HeadHunter Moscow', get_average_salary_hh(languages)))
+  print(create_table('SuberJob Moscow', get_average_salary_sj(languages, sj_key)))
 
 
 if __name__ == '__main__':
