@@ -25,7 +25,7 @@ def get_vacancies_hh(language):
       'specialization': '1.221',
       'area': '1',
       'period': '30',
-      'page': f'{page}',
+      'page': page,
       'per_page': '100'
     }
     response = requests.get('https://api.hh.ru/vacancies', params=payload)
@@ -71,7 +71,7 @@ def get_vacancies_sj(language):
   }
   for page in itertools.count(start=0, step=1):
     payload = {
-      'page': f'{page}',
+      'page': page,
       'count': '100',
       'town': '4',
       'catalogues': '48',
