@@ -64,10 +64,10 @@ def get_average_salary_hh(languages):
   return hh_average_salaries
 
 
-def get_vacancies_sj(language):
+def get_vacancies_sj(language, sj_key):
   vacancies = []
   headers = {
-    'X-Api-App-Id': os.getenv('SJ_KEY')
+    'X-Api-App-Id': sj_key
   }
   for page in itertools.count(start=0, step=1):
     payload = {
@@ -89,11 +89,11 @@ def get_vacancies_sj(language):
   return found, vacancies
 
 
-def get_average_salary_sj(languages):
+def get_average_salary_sj(languages, sj_key):
   sj_average_salaries = {}
   for language in languages:
     language_average_salaries = {}
-    found, vacancies = get_vacancies_sj(language)
+    found, vacancies = get_vacancies_sj(language, sj_key)
 
     predict_salaries = []
     for vacancy in vacancies:
@@ -127,9 +127,11 @@ def table(title, average_salaries):
 
 def main():
   load_dotenv()
+  sj_key = os.getenv('SJ_KEY')
+
   languages = ['JavaScript', 'Java', 'Python', 'Ruby', 'PHP', 'C++', 'CSS', 'C#', 'C', 'Go']
   table('HeadHunter Moscow', get_average_salary_hh(languages))
-  table('SuberJob Moscow', get_average_salary_sj(languages))
+  table('SuberJob Moscow', get_average_salary_sj(languages, sj_key))
 
 
 if __name__ == '__main__':
