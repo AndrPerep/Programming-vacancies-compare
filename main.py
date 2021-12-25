@@ -112,7 +112,7 @@ def get_average_salary_sj(languages, sj_key):
   return sj_average_salaries
 
 
-def table(title, average_salaries):
+def create_table(title, average_salaries):
   table_data = [['Язык программирования', 'Вакансий найдено', 'Вакансий обработано', 'Средняя зарплата']]
   for language in average_salaries:
     language_average_salaries = average_salaries[language]
@@ -133,8 +133,8 @@ def main():
   sj_key = os.getenv('SJ_KEY')
 
   languages = ['JavaScript', 'Java', 'Python', 'Ruby', 'PHP', 'C++', 'CSS', 'C#', 'C', 'Go']
-  table('HeadHunter Moscow', get_average_salary_hh(languages))
-  table('SuberJob Moscow', get_average_salary_sj(languages, sj_key))
+  create_table('HeadHunter Moscow', get_average_salary_hh(languages))
+  create_table('SuberJob Moscow', get_average_salary_sj(languages, sj_key))
 
 
 if __name__ == '__main__':
