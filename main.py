@@ -91,7 +91,7 @@ def get_vacancies_sj(language, sj_key):
     response_json = response.json()
 
     vacancies.extend(response_json['objects'])
-    if response_json['more'] == False:
+    if not response_json['more']:
       break
 
   found = response_json['total']
