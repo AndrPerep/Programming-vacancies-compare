@@ -15,7 +15,7 @@ pip install -r requirements.txt
 
 Для получения таблиц используйте команду:
 ```
-main.py
+python3 main.py
 ```
 
 ### Цель проекта
