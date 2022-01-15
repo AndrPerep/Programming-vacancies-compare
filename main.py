@@ -9,12 +9,11 @@ from terminaltables import AsciiTable
 
 def predict_rub_salary(payment_from, payment_to):
   if payment_from and payment_to:
-    predict_salary = (payment_from + payment_to)/2
+    return (payment_from + payment_to)/2
   elif payment_from:
-    predict_salary = payment_from * 1.2
-  else:
-    predict_salary = payment_to * 0.8
-  return predict_salary
+    return payment_from * 1.2
+  elif payment_to:
+    return payment_to * 0.8
 
 
 def get_vacancies_hh(language):
