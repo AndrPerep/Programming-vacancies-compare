@@ -54,10 +54,9 @@ def get_average_salary_hh(languages):
     predict_salaries = []
     for vacancy in vacancies:
       salary = vacancy['salary']
-      if salary:
-        if salary['currency'] == 'RUR':
-          if salary['from'] or salary['to']:
-            predict_salaries.append(predict_rub_salary(salary['from'], salary['to']))
+      if salary and salary['currency'] == 'RUR':
+        if salary['from'] or salary['to']:
+          predict_salaries.append(predict_rub_salary(salary['from'], salary['to']))
 
     language_average_salaries = {
       'average_salary': int(mean(predict_salaries)),
