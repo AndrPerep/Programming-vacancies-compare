@@ -17,13 +17,17 @@ def predict_rub_salary(payment_from, payment_to):
 
 
 def get_vacancies_hh(language):
+  job_specialization = '1.221'
+  search_area = '1'
+  period = '30'
+
   vacancies = []
   for page in itertools.count(start=0, step=1):
     payload = {
       'text': f'Программист {language}',
-      'specialization': '1.221',
-      'area': '1',
-      'period': '30',
+      'specialization': job_specialization,
+      'area': search_area,
+      'period': period,
       'page': page,
       'per_page': '100'
     }
@@ -65,6 +69,9 @@ def get_average_salary_hh(languages):
 
 
 def get_vacancies_sj(language, sj_key):
+  search_area = '4'
+  job_specialization = '48'
+
   vacancies = []
   headers = {
     'X-Api-App-Id': sj_key
@@ -73,8 +80,8 @@ def get_vacancies_sj(language, sj_key):
     payload = {
       'page': page,
       'count': '100',
-      'town': '4',
-      'catalogues': '48',
+      'town': search_area,
+      'catalogues': job_specialization,
       'keyword': f'Программист {language}'
     }
     response = requests.get('https://api.superjob.ru/2.0/vacancies/', headers=headers, params=payload)
