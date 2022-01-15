@@ -30,15 +30,15 @@ def get_vacancies_hh(language):
     response = requests.get('https://api.hh.ru/vacancies', params=payload)
     response.raise_for_status()
 
-    response_json = response.json()
-    pages_number = response_json['pages']
+    decoded_response = response.json()
+    pages_number = decoded_response['pages']
 
-    for vacancy in response_json['items']:
+    for vacancy in decoded_response['items']:
       vacancies.append(vacancy)
 
     if page > pages_number or page == 19:
       break
-  found = response_json['found']
+  found = decoded_response['found']
   return found, vacancies
 
 
