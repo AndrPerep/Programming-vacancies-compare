@@ -38,9 +38,7 @@ def get_vacancies_hh(language):
 
     decoded_response = response.json()
     pages_number = decoded_response['pages']
-
-    for vacancy in decoded_response['items']:
-      vacancies.append(vacancy)
+    vacancies.extend(decoded_response['items'])
 
     if page > pages_number or page == 19:
       break
@@ -92,8 +90,7 @@ def get_vacancies_sj(language, sj_key):
     response.raise_for_status()
     response_json = response.json()
 
-    for vacancy in response_json['objects']:
-      vacancies.append(vacancy)
+    vacancies.extend(response_json['objects'])
     if response_json['more'] == False:
       break
 
