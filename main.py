@@ -22,15 +22,15 @@ def get_vacancies_hh(language):
   period = '30'
 
   vacancies = []
+  payload = {
+    'text': f'Программист {language}',
+    'specialization': job_specialization,
+    'area': search_area,
+    'period': period,
+    'per_page': '100'
+  }
   for page in itertools.count(start=0, step=1):
-    payload = {
-      'text': f'Программист {language}',
-      'specialization': job_specialization,
-      'area': search_area,
-      'period': period,
-      'page': page,
-      'per_page': '100'
-    }
+    payload['page'] = page
     response = requests.get('https://api.hh.ru/vacancies', params=payload)
     response.raise_for_status()
 
@@ -76,14 +76,15 @@ def get_vacancies_sj(language, sj_key):
   headers = {
     'X-Api-App-Id': sj_key
   }
+  payload = {
+    'count': '100',
+    'town': search_area,
+    'catalogues': job_specialization,
+    'keyword': f'Программист {language}'
+  }
+
   for page in itertools.count(start=0, step=1):
-    payload = {
-      'page': page,
-      'count': '100',
-      'town': search_area,
-      'catalogues': job_specialization,
-      'keyword': f'Программист {language}'
-    }
+    payload['page'] = page
     response = requests.get('https://api.superjob.ru/2.0/vacancies/', headers=headers, params=payload)
     response.raise_for_status()
     response_json = response.json()
@@ -137,7 +138,7 @@ def main():
   sj_key = os.getenv('SJ_KEY')
 
   languages = ['JavaScript', 'Java', 'Python', 'Ruby', 'PHP', 'C++', 'CSS', 'C#', 'C', 'Go']
-  print(create_table('HeadHunter Moscow', get_average_salary_hh(languages)))
+  #print(create_table('HeadHunter Moscow', get_average_salary_hh(languages)))
   print(create_table('SuberJob Moscow', get_average_salary_sj(languages, sj_key)))
 
 
