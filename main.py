@@ -8,12 +8,14 @@ from terminaltables import AsciiTable
 
 
 def predict_rub_salary(payment_from, payment_to):
+  aaa = None
   if payment_from and payment_to:
-    return (payment_from + payment_to)/2
+    aaa = (payment_from + payment_to)/2
   elif payment_from:
-    return payment_from * 1.2
+    aaa = payment_from * 1.2
   elif payment_to:
-    return payment_to * 0.8
+    aaa = payment_to * 0.8
+  return aaa
 
 
 def get_vacancies_hh(language):
@@ -56,7 +58,8 @@ def get_average_salary_hh(languages):
       salary = vacancy['salary']
       if salary:
         if salary['currency'] == 'RUR':
-          predict_salaries.append(predict_rub_salary(salary['from'], salary['to']))
+          if salary['from'] or salary['to']:
+            predict_salaries.append(predict_rub_salary(salary['from'], salary['to']))
 
     language_average_salaries = {
       'average_salary': int(mean(predict_salaries)),
@@ -107,7 +110,8 @@ def get_average_salary_sj(languages, sj_key):
     predict_salaries = []
     for vacancy in vacancies:
       if vacancy['currency'] == 'rub':
-        predict_salaries.append(predict_rub_salary(vacancy['payment_from'], vacancy['payment_to']))
+        if vacancy['payment_from'] or vacancy['payment_to']:
+          predict_salaries.append(predict_rub_salary(vacancy['payment_from'], vacancy['payment_to']))
 
     language_average_salaries = {
       'average_salary': int(mean(predict_salaries)),
@@ -138,7 +142,7 @@ def main():
   sj_key = os.getenv('SJ_KEY')
 
   languages = ['JavaScript', 'Java', 'Python', 'Ruby', 'PHP', 'C++', 'CSS', 'C#', 'C', 'Go']
-  #print(create_table('HeadHunter Moscow', get_average_salary_hh(languages)))
+  print(create_table('HeadHunter Moscow', get_average_salary_hh(languages)))
   print(create_table('SuberJob Moscow', get_average_salary_sj(languages, sj_key)))
 
 
