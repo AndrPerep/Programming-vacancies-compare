@@ -107,7 +107,6 @@ def get_average_salaries_sj(languages, sj_key):
     for vacancy in vacancies:
       if vacancy['currency'] == 'rub':
         if vacancy['payment_from'] or vacancy['payment_to']:
-          print(vacancy['payment_from'], vacancy['payment_to'])
           predict_salaries.append(predict_rub_salary(vacancy['payment_from'], vacancy['payment_to']))
 
     if predict_salaries:
