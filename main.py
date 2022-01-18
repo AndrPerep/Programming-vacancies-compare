@@ -8,14 +8,12 @@ from terminaltables import AsciiTable
 
 
 def predict_rub_salary(payment_from, payment_to):
-  aaa = None
   if payment_from and payment_to:
-    aaa = (payment_from + payment_to)/2
+    return (payment_from + payment_to)/2
   elif payment_from:
-    aaa = payment_from * 1.2
+    return payment_from * 1.2
   elif payment_to:
-    aaa = payment_to * 0.8
-  return aaa
+    return payment_to * 0.8
 
 
 def get_vacancies_hh(language):
