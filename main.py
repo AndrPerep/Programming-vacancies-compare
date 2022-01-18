@@ -58,12 +58,14 @@ def get_average_salaries_hh(languages):
         if salary['from'] or salary['to']:
           predict_salaries.append(predict_rub_salary(salary['from'], salary['to']))
 
-    language_average_salaries = {
-      'average_salary': int(mean(predict_salaries)),
-      'vacancies_processed': len(predict_salaries),
-      'vacancies_found': found
-    }
-    hh_average_salaries[language] = language_average_salaries
+    if predict_salaries:
+      language_average_salaries = {
+        'average_salary': int(mean(predict_salaries)),
+        'vacancies_processed': len(predict_salaries),
+        'vacancies_found': found
+      }
+
+      hh_average_salaries[language] = language_average_salaries
 
   return hh_average_salaries
 
@@ -110,13 +112,14 @@ def get_average_salaries_sj(languages, sj_key):
           print(vacancy['payment_from'], vacancy['payment_to'])
           predict_salaries.append(predict_rub_salary(vacancy['payment_from'], vacancy['payment_to']))
 
-    language_average_salaries = {
-      'average_salary': int(mean(predict_salaries)),
-      'vacancies_processed': len(predict_salaries),
-      'vacancies_found': found
-    }
+    if predict_salaries:
+      language_average_salaries = {
+        'average_salary': int(mean(predict_salaries)),
+        'vacancies_processed': len(predict_salaries),
+        'vacancies_found': found
+      }
 
-    sj_average_salaries[language] = language_average_salaries
+      sj_average_salaries[language] = language_average_salaries
 
   return sj_average_salaries
 
