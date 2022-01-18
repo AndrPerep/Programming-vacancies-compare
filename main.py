@@ -49,17 +49,17 @@ def get_average_salaries_hh(languages):
   for language in languages:
     found, vacancies = get_vacancies_hh(language)
 
-    predict_salaries = []
+    predicted_salaries = []
     for vacancy in vacancies:
       salary = vacancy['salary']
       if salary and salary['currency'] == 'RUR':
         if salary['from'] or salary['to']:
-          predict_salaries.append(predict_rub_salary(salary['from'], salary['to']))
+          predicted_salaries.append(predict_rub_salary(salary['from'], salary['to']))
 
-    if predict_salaries:
+    if predicted_salaries:
       language_average_salaries = {
-        'average_salary': int(mean(predict_salaries)),
-        'vacancies_processed': len(predict_salaries),
+        'average_salary': int(mean(predicted_salaries)),
+        'vacancies_processed': len(predicted_salaries),
         'vacancies_found': found
       }
 
@@ -103,16 +103,16 @@ def get_average_salaries_sj(languages, sj_key):
   for language in languages:
     found, vacancies = get_vacancies_sj(language, sj_key)
 
-    predict_salaries = []
+    predicted_salaries = []
     for vacancy in vacancies:
       if vacancy['currency'] == 'rub':
         if vacancy['payment_from'] or vacancy['payment_to']:
-          predict_salaries.append(predict_rub_salary(vacancy['payment_from'], vacancy['payment_to']))
+          predicted_salaries.append(predict_rub_salary(vacancy['payment_from'], vacancy['payment_to']))
 
-    if predict_salaries:
+    if predicted_salaries:
       language_average_salaries = {
-        'average_salary': int(mean(predict_salaries)),
-        'vacancies_processed': len(predict_salaries),
+        'average_salary': int(mean(predicted_salaries)),
+        'vacancies_processed': len(predicted_salaries),
         'vacancies_found': found
       }
 
