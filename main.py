@@ -126,6 +126,7 @@ def create_table(title, average_salaries):
   for language in average_salaries:
     language_average_salaries = average_salaries[language]
     table_row = list(language_average_salaries.values())
+    table_row.reverse()
     table_row.insert(0, language)
 
     table_data.append(table_row)
