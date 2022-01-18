@@ -123,12 +123,11 @@ def get_average_salaries_sj(languages, sj_key):
 
 def create_table(title, average_salaries):
   table_data = [['Язык программирования', 'Вакансий найдено', 'Вакансий обработано', 'Средняя зарплата']]
-  for language in average_salaries:
-    language_average_salaries = average_salaries[language]
+
+  for language, language_average_salaries in average_salaries.items():
     table_row = list(language_average_salaries.values())
     table_row.reverse()
     table_row.insert(0, language)
-
     table_data.append(table_row)
 
   table = AsciiTable(table_data, title)
