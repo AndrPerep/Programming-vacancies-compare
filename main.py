@@ -46,7 +46,7 @@ def get_vacancies_hh(language):
   return found, vacancies
 
 
-def get_average_salary_hh(languages):
+def get_average_salaries_hh(languages):
   hh_average_salaries = {}
   for language in languages:
     found, vacancies = get_vacancies_hh(language)
@@ -97,7 +97,7 @@ def get_vacancies_sj(language, sj_key):
   return found, vacancies
 
 
-def get_average_salary_sj(languages, sj_key):
+def get_average_salaries_sj(languages, sj_key):
   sj_average_salaries = {}
 
   for language in languages:
@@ -107,6 +107,7 @@ def get_average_salary_sj(languages, sj_key):
     for vacancy in vacancies:
       if vacancy['currency'] == 'rub':
         if vacancy['payment_from'] or vacancy['payment_to']:
+          print(vacancy['payment_from'], vacancy['payment_to'])
           predict_salaries.append(predict_rub_salary(vacancy['payment_from'], vacancy['payment_to']))
 
     language_average_salaries = {
@@ -114,6 +115,7 @@ def get_average_salary_sj(languages, sj_key):
       'vacancies_processed': len(predict_salaries),
       'vacancies_found': found
     }
+
     sj_average_salaries[language] = language_average_salaries
 
   return sj_average_salaries
@@ -121,7 +123,6 @@ def get_average_salary_sj(languages, sj_key):
 
 def create_table(title, average_salaries):
   table_data = [['Язык программирования', 'Вакансий найдено', 'Вакансий обработано', 'Средняя зарплата']]
-
   for language in average_salaries:
     language_average_salaries = average_salaries[language]
     table_row = list(language_average_salaries.values())
@@ -138,8 +139,8 @@ def main():
   sj_key = os.getenv('SJ_KEY')
 
   languages = ['JavaScript', 'Java', 'Python', 'Ruby', 'PHP', 'C++', 'CSS', 'C#', 'C', 'Go']
-  print(create_table('HeadHunter Moscow', get_average_salary_hh(languages)))
-  print(create_table('SuberJob Moscow', get_average_salary_sj(languages, sj_key)))
+  print(create_table('HeadHunter Moscow', get_average_salaries_hh(languages)))
+  print(create_table('SuberJob Moscow', get_average_salaries_sj(languages, sj_key)))
 
 
 if __name__ == '__main__':
