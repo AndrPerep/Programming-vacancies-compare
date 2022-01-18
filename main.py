@@ -139,7 +139,7 @@ def main():
 
   languages = ['JavaScript', 'Java', 'Python', 'Ruby', 'PHP', 'C++', 'CSS', 'C#', 'C', 'Go']
   print(create_table('HeadHunter Moscow', get_average_salaries_hh(languages)))
-  print(create_table('SuberJob Moscow', get_average_salaries_sj(languages, sj_key)))
+  print(create_table('SuperJob Moscow', get_average_salaries_sj(languages, sj_key)))
 
 
 if __name__ == '__main__':
