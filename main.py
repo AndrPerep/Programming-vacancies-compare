@@ -17,8 +17,8 @@ def predict_rub_salary(payment_from, payment_to):
 
 
 def get_vacancies_hh(language):
-  job_specialization = '1.221'
-  search_area = '1'
+  job_specialization = '1.221' #id специализации из справочника: https://api.hh.ru/specializations
+  search_area = '1' #id региона из справочника: https://api.hh.ru/areas
   period = '30'
 
   vacancies = []
@@ -64,8 +64,8 @@ def get_average_salaries_hh(language):
 
 
 def get_vacancies_sj(language, sj_key):
-  search_area = '4'
-  job_specialization = '48'
+  search_area = '4' #id города из справочника: https://api.superjob.ru/2.0/towns/
+  job_specialization = '48' #id специализации из справочника: https://api.superjob.ru/2.0/catalogues/
 
   vacancies = []
   headers = {
