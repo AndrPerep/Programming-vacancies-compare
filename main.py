@@ -59,6 +59,12 @@ def get_average_salaries_hh(language):
       'vacancies_processed': len(predicted_salaries),
       'vacancies_found': found
     }
+  else:
+    language_average_salaries = {
+      'average_salary': None,
+      'vacancies_processed': '0',
+      'vacancies_found': '0'
+    }
 
   return language_average_salaries
 
@@ -106,6 +112,12 @@ def get_average_salaries_sj(language, sj_key):
       'average_salary': int(mean(predicted_salaries)),
       'vacancies_processed': len(predicted_salaries),
       'vacancies_found': found
+    }
+  else:
+    language_average_salaries = {
+      'average_salary': None,
+      'vacancies_processed': '0',
+      'vacancies_found': '0'
     }
 
 
