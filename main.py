@@ -43,28 +43,24 @@ def get_vacancies_hh(language):
   return found, vacancies
 
 
-def get_average_salaries_hh(languages):
-  hh_average_salaries = {}
-  for language in languages:
-    found, vacancies = get_vacancies_hh(language)
+def get_average_salaries_hh(language):
+  found, vacancies = get_vacancies_hh(language)
 
-    predicted_salaries = []
-    for vacancy in vacancies:
-      salary = vacancy['salary']
-      if salary and salary['currency'] == 'RUR':
-        if salary['from'] or salary['to']:
-          predicted_salaries.append(predict_rub_salary(salary['from'], salary['to']))
+  predicted_salaries = []
+  for vacancy in vacancies:
+    salary = vacancy['salary']
+    if salary and salary['currency'] == 'RUR':
+      if salary['from'] or salary['to']:
+        predicted_salaries.append(predict_rub_salary(salary['from'], salary['to']))
 
-    if predicted_salaries:
-      language_average_salaries = {
-        'average_salary': int(mean(predicted_salaries)),
-        'vacancies_processed': len(predicted_salaries),
-        'vacancies_found': found
-      }
+  if predicted_salaries:
+    language_average_salaries = {
+      'average_salary': int(mean(predicted_salaries)),
+      'vacancies_processed': len(predicted_salaries),
+      'vacancies_found': found
+    }
 
-      hh_average_salaries[language] = language_average_salaries
-
-  return hh_average_salaries
+  return language_average_salaries
 
 
 def get_vacancies_sj(language, sj_key):
@@ -96,28 +92,24 @@ def get_vacancies_sj(language, sj_key):
   return found, vacancies
 
 
-def get_average_salaries_sj(languages, sj_key):
-  sj_average_salaries = {}
+def get_average_salaries_sj(language, sj_key):
+  found, vacancies = get_vacancies_sj(language, sj_key)
 
-  for language in languages:
-    found, vacancies = get_vacancies_sj(language, sj_key)
+  predicted_salaries = []
+  for vacancy in vacancies:
+    if vacancy['currency'] == 'rub':
+      if vacancy['payment_from'] or vacancy['payment_to']:
+        predicted_salaries.append(predict_rub_salary(vacancy['payment_from'], vacancy['payment_to']))
 
-    predicted_salaries = []
-    for vacancy in vacancies:
-      if vacancy['currency'] == 'rub':
-        if vacancy['payment_from'] or vacancy['payment_to']:
-          predicted_salaries.append(predict_rub_salary(vacancy['payment_from'], vacancy['payment_to']))
+  if predicted_salaries:
+    language_average_salaries = {
+      'average_salary': int(mean(predicted_salaries)),
+      'vacancies_processed': len(predicted_salaries),
+      'vacancies_found': found
+    }
 
-    if predicted_salaries:
-      language_average_salaries = {
-        'average_salary': int(mean(predicted_salaries)),
-        'vacancies_processed': len(predicted_salaries),
-        'vacancies_found': found
-      }
 
-      sj_average_salaries[language] = language_average_salaries
-
-  return sj_average_salaries
+  return language_average_salaries
 
 
 def create_table(title, average_salaries):
@@ -138,8 +130,16 @@ def main():
   sj_key = os.getenv('SJ_KEY')
 
   languages = ['JavaScript', 'Java', 'Python', 'Ruby', 'PHP', 'C++', 'CSS', 'C#', 'C', 'Go']
-  print(create_table('HeadHunter Moscow', get_average_salaries_hh(languages)))
-  print(create_table('SuperJob Moscow', get_average_salaries_sj(languages, sj_key)))
+
+  hh_average_salaries = {}
+  sj_average_salaries = {}
+
+  for language in languages:
+    hh_average_salaries[language] = get_average_salaries_hh(language)
+    sj_average_salaries[language] = get_average_salaries_sj(language, sj_key)
+
+  print(create_table('HeadHunter Moscow', hh_average_salaries))
+  print(create_table('SuperJob Moscow', sj_average_salaries))
 
 
 if __name__ == '__main__':
